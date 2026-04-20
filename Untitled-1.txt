@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VYRO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<!-- NAVBAR -->
+<header class="bg-black text-white p-4 flex justify-between items-center shadow-lg">
+  <h1 class="text-2xl font-bold tracking-wider">VYRO</h1>
+  <button onclick="verCarrito()" class="bg-white text-black px-4 py-2 rounded-xl font-semibold">
+    🛒 (<span id="contador">0</span>)
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="text-center py-16 bg-gradient-to-r from-black to-gray-800 text-white">
+  <h2 class="text-4xl font-bold">Nueva Colección 2026</h2>
+  <p class="mt-3 text-lg">Streetwear con identidad</p>
+</section>
+
+<!-- FILTROS -->
+<section class="p-6 flex justify-center gap-4">
+  <button class="bg-black text-white px-4 py-2 rounded-xl">Todo</button>
+  <button class="bg-white border px-4 py-2 rounded-xl">Remeras</button>
+  <button class="bg-white border px-4 py-2 rounded-xl">Buzos</button>
+</section>
+
+<!-- CATALOGO -->
+<section class="p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+  <div class="bg-white p-4 rounded-2xl shadow hover:shadow-2xl transition">
+    <img src="https://via.placeholder.com/300" class="rounded-xl">
+    <h3 class="text-lg font-bold mt-3">Remera Oversize</h3>
+    <p class="text-gray-600">$12000</p>
+    <select class="mt-2 w-full border rounded-lg p-2">
+      <option>Talle S</option>
+      <option>Talle M</option>
+      <option>Talle L</option>
+    </select>
+    <button onclick="agregarAlCarrito('Remera Oversize',12000)" class="mt-3 w-full bg-black text-white py-2 rounded-xl">Agregar al carrito</button>
+  </div>
+
+  <div class="bg-white p-4 rounded-2xl shadow hover:shadow-2xl transition">
+    <img src="https://via.placeholder.com/300" class="rounded-xl">
+    <h3 class="text-lg font-bold mt-3">Buzo Hoodie</h3>
+    <p class="text-gray-600">$25000</p>
+    <select class="mt-2 w-full border rounded-lg p-2">
+      <option>Talle S</option>
+      <option>Talle M</option>
+      <option>Talle L</option>
+    </select>
+    <button onclick="agregarAlCarrito('Buzo Hoodie',25000)" class="mt-3 w-full bg-black text-white py-2 rounded-xl">Agregar al carrito</button>
+  </div>
+
+</section>
+
+<!-- CARRITO MODAL -->
+<div id="carritoModal" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+  <div class="bg-white p-6 rounded-2xl w-96">
+    <h2 class="text-xl font-bold mb-4">Tu Carrito</h2>
+    <ul id="listaCarrito" class="text-sm"></ul>
+    <p class="mt-4 font-bold">Total: $<span id="total">0</span></p>
+
+    <button onclick="enviarWhatsApp()" class="bg-green-500 text-white px-4 py-2 rounded-xl mt-3 w-full">
+      Finalizar compra
+    </button>
+
+    <button onclick="cerrarCarrito()" class="mt-2 text-red-500 w-full">Cerrar</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-black text-white text-center p-4 mt-10">
+  <p>© 2026 VYRO - Todos los derechos reservados</p>
+</footer>
+
+<script>
+let carrito = [];
+
+function agregarAlCarrito(nombre, precio) {
+  carrito.push({nombre, precio});
+  actualizarCarrito();
+}
+
+function actualizarCarrito() {
+  document.getElementById("contador").innerText = carrito.length;
+}
+
+function verCarrito() {
+  const lista = document.getElementById("listaCarrito");
+  lista.innerHTML = "";
+  let total = 0;
+
+  carrito.forEach(p => {
+    const li = document.createElement("li");
+    li.innerText = `${p.nombre} - $${p.precio}`;
+    lista.appendChild(li);
+    total += p.precio;
+  });
+
+  document.getElementById("total").innerText = total;
+  document.getElementById("carritoModal").classList.remove("hidden");
+}
+
+function cerrarCarrito() {
+  document.getElementById("carritoModal").classList.add("hidden");
+}
+
+function enviarWhatsApp() {
+  let mensaje = "Hola, quiero comprar:%0A";
+  carrito.forEach(p => {
+    mensaje += `- ${p.nombre} ($${p.precio})%0A`;
+  });
+
+  const numero = "549XXXXXXXXXX";
+  window.open(`https://wa.me/${numero}?text=${mensaje}`);
+}
+</script>
+
+</body>
+</html>
